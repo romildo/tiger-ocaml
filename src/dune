@@ -1,0 +1,6 @@
+;; tiger compiler
+
+(executable
+  (name driver)
+  (flags (:standard -warn-error -A))
+)
