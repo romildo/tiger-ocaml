@@ -20,3 +20,8 @@ $ dune build src/driver.exe
 ```
 $ dune exec src/driver.exe
 ```
+
+## References
+
+[Recipes for OCamlLex](https://medium.com/@huund/recipes-for-ocamllex-bb4efa0afe53)
+
