@@ -16,6 +16,6 @@
 
 (menhir
   (modules parser)
-  (flags ("--explain" "--dump"))
+  (flags ("--only-tokens"))
   (infer true)
 )
