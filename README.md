@@ -7,6 +7,8 @@ A compiler for the Tiger programming language targetting LLVM and implemented in
 ```
 $ sudo add-apt-repository ppa:avsm/ppa
 $ sudo apt update
+$ sudo apt install m4
+$ sudo apt install rlwrap
 $ sudo apt install opam
 $ opam switch create bcc328 4.07.1
 $ eval $(opam env)
