@@ -2,8 +2,7 @@
 
 let
   inherit (nixpkgs) pkgs;
-  #ocamlPackages = pkgs.ocamlPackages_latest;
-  ocamlPackages = pkgs.ocamlPackages;
+  ocamlPackages = pkgs.ocamlPackages_latest;
 in
 
 pkgs.stdenv.mkDerivation {
