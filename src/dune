@@ -3,10 +3,7 @@
 (executable
   (name driver)
   (preprocess
-   (staged_pps
-    ppx_import             ; syntax extension that allows to pull in types or signatures from other compiled interface files
-    ppx_deriving.show
-    ))
+   (staged_pps ppx_import ppx_deriving.show))
   (flags (:standard -warn-error -A))
 )
 
