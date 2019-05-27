@@ -2,7 +2,8 @@
 
 let
   inherit (nixpkgs) pkgs;
-  ocamlPackages = pkgs.ocamlPackages_latest;
+  #ocamlPackages = pkgs.ocamlPackages_latest;
+  ocamlPackages = pkgs.ocamlPackages;
 in
 
 pkgs.stdenv.mkDerivation {
@@ -13,10 +14,13 @@ pkgs.stdenv.mkDerivation {
     ocamlPackages.ppx_import
     ocamlPackages.ppx_deriving
     ocamlPackages.merlin
+    ocamlPackages.menhir
     ocamlPackages.dune
     ocamlPackages.utop
-    pkgs.emacs
-    pkgs.vscode
     pkgs.rlwrap
+    pkgs.vscode
+    (pkgs.emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
+      pkgs.dune
+    ])))
   ];
 }
