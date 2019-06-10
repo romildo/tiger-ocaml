@@ -12,8 +12,13 @@ pkgs.stdenv.mkDerivation {
     ocamlPackages.findlib
     ocamlPackages.ppx_import
     ocamlPackages.ppx_deriving
+    ocamlPackages.ppx_expect
+    ocamlPackages.ppx_here
+    ocamlPackages.re
     ocamlPackages.merlin
+    ocamlPackages.patience_diff
     ocamlPackages.menhir
+    ocamlPackages.ounit
     ocamlPackages.dune
     ocamlPackages.utop
     pkgs.rlwrap
