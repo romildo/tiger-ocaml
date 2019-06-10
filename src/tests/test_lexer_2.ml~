@@ -1,0 +1,47 @@
+module Trm = ANSITerminal
+
+module L = Lexing
+
+let scan_string s =
+  let lexbuf = L.from_string s in
+  let rec go () =
+    let tok = Lexer.token lexbuf in
+    Format.printf
+      "%a %s\n%!"
+      Location.print_loc (Location.curr_loc lexbuf)
+      (Lexer.show_token tok);
+    match tok with
+    | Parser.EOF -> ()
+    | _ -> go ()
+  in
+  go ()
+
+let lex_string s =
+  let lexbuf = L.from_string s in
+  let rec go tokens =
+    let tok = Lexer.token lexbuf in
+    let tokens' = tok :: tokens in
+    match tok with
+    | Parser.EOF -> List.rev tokens'
+    | _ -> go tokens'
+  in
+  go []
+
+let (>::) title input =
+  Trm.print_string [Trm.blue] "test ";
+  Trm.print_string [Trm.green] title;
+  Trm.print_string [Trm.blue] "\ninput:\n";
+  Trm.print_string [Trm.default] input;
+  Trm.print_string [Trm.blue] "\noutput:\n";
+  scan_string input;
+  Printf.printf "\n%!"
+
+let test () =
+  "eof" >:: "";
+  "spaces" >:: "  \t\n\n\n  ";
+  "integer literals" >:: "1342";
+  "string literals" >:: "\"text\"";
+  "identifier" >:: "altura";
+  "block comments" >:: "/* ignore me */"
+
+let () = test ()

@@ -1,18 +1,5 @@
-;; tiger compiler
-
-(executable
-  (name driver)
-  (preprocess
-   (staged_pps ppx_import ppx_deriving.show))
-  (flags (:standard -warn-error -A))
-)
-
-(ocamllex
-  (modules lexer)
-)
-
-(menhir
-  (modules parser)
-  (flags ("--only-tokens"))
-  (infer true)
-)
+(env
+  (dev
+    (flags (:standard -warn-error -A)))
+  (release
+    (flags (:standard -O3 -w +42))))

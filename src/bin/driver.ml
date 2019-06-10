@@ -21,7 +21,9 @@ let main () =
   let lexbuf = L.from_channel (Option.channel ()) in
   Lexer.set_filename lexbuf (Option.filename ());
   if Option.print_lex () then
-    scan lexbuf;
+    scan lexbuf
+  else if Option.print_parse () then
+    Parser.program Lexer.token lexbuf;
   print_endline "done"
 
 let () = main ()
