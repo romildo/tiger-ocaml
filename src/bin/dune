@@ -1,0 +1,6 @@
+(executable
+  (name driver)
+  (libraries tiger)
+  (flags
+    (:standard -warn-error -A))
+)

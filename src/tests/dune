@@ -1,0 +1,5 @@
+(executable
+  (name test_lexer_2)
+  (libraries tiger oUnit)
+  (flags
+    (:standard -warn-error -A)))

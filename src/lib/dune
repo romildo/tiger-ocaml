@@ -1,0 +1,20 @@
+(library
+  (name tiger)
+  (wrapped false)
+  (inline_tests)
+  (preprocess
+    (staged_pps
+      ppx_import
+      ppx_deriving.show
+      ppx_expect))
+  (flags
+    (:standard -warn-error -A)))
+
+(ocamllex
+  (modules lexer))
+
+(menhir
+  (modules parser)
+  (flags (--explain --dump --graph --log-grammar 2))
+  ;(flags ("--only-tokens"))
+  (infer true))
