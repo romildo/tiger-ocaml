@@ -1,5 +1,6 @@
 (library
   (name tiger)
+  (libraries camomile)
   (wrapped false)
   (inline_tests)
   (preprocess
@@ -8,7 +9,7 @@
       ppx_deriving.show
       ppx_expect))
   (flags
-    (:standard -warn-error -A)))
+    (:standard -unsafe-string -warn-error -A)))
 
 (ocamllex
   (modules lexer))
