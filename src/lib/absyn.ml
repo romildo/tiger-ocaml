@@ -15,10 +15,7 @@ type oper =
 type field = symbol * symbol
 [@@deriving show]
 
-type exp = absyn_exp * Types.ty ref
-[@@deriving show]
-
-and absyn_exp =
+and exp =
   | NilExp
   | IntExp    of int
   | StringExp of string
@@ -59,11 +56,15 @@ and fundec = symbol * field loc list * symbol loc option * lexp * Types.ty ref
 
 and lexp = exp loc
 (* [@@deriving show] *)
+
 and lvar = var loc
 (* [@@deriving show] *)
+
 and ldec = dec loc
 (* [@@deriving show] *)
+
 and lfundec = fundec loc
 (* [@@deriving show] *)
+
 and lty  = ty  loc
 (* [@@deriving show] *)
