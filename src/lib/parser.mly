@@ -2,6 +2,10 @@
 
 %{
   open Absyn
+
+  let at location x =
+    let (left, right) = location in
+    ({ Location.loc_start = left; Location.loc_end = right}, x)
 %}
 
 %token <int>    INT
@@ -17,7 +21,7 @@
 %token          ASSIGN
 %token          EOF
 
-%start <Absyn.exp>    program
+%start <Absyn.lexp>    program
 
 %%
 
@@ -25,4 +29,4 @@ program:
  | x=exp EOF { x }
 
 exp:
- | NIL       { NilExp }
+ | NIL       { at $loc NilExp }
