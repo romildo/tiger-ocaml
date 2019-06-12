@@ -1,5 +1,9 @@
 // parser.mly
 
+%{
+  open Absyn
+%}
+
 %token <int>    INT
 %token <string> STR
 %token <string> ID
@@ -13,9 +17,12 @@
 %token          ASSIGN
 %token          EOF
 
-%start <unit> program
+%start <Absyn.exp>    program
 
 %%
 
 program:
- | EOF {}
+ | x=exp EOF { x }
+
+exp:
+ | NIL       { NilExp }

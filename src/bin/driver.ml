@@ -23,7 +23,8 @@ let main () =
   if Option.print_lex () then
     scan lexbuf
   else if Option.print_parse () then
-    Parser.program Lexer.token lexbuf;
+    let ast = Parser.program Lexer.token lexbuf in
+    print_endline (Absyn.show_exp ast);
   print_endline "done"
 
 let () = main ()
