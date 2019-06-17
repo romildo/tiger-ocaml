@@ -6,7 +6,7 @@ let scan_string s =
     let tok = Lexer.token lexbuf in
     Format.printf
       "%a %s\n%!"
-      Location.print_loc (Location.curr_loc lexbuf)
+      Location.pp_location (Location.curr_loc lexbuf)
       (Lexer.show_token tok);
     match tok with
     | Parser.EOF -> ()

@@ -23,6 +23,9 @@ let symbol name =
 
 let new_symbol s = symbol (Printf.sprintf "%s_%d" s !nextsym)
 
+let pp_symbol ppf s =
+  Format.fprintf ppf "\"%s\"" (name s)
+
 
 module Table = Map.Make(
   (* purely applicative (no side-effects) association tables over ordered types *)

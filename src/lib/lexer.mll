@@ -55,7 +55,7 @@ rule token = parse
   | "type"	  { TYPE }
   | "var"	  { VAR }
   | "while"	  { WHILE }
-  | id as lxm	  { ID lxm }
+  | id as lxm	  { ID (Symbol.symbol lxm) }
   | ":="	  { ASSIGN }
   | '|'		  { OR }
   | '&'		  { AND }
@@ -92,7 +92,7 @@ and comment level = parse
            comment level lexbuf
          }
   | _    { comment level lexbuf }
-  | eof  { unterminated_comment {loc_start=List.hd level; loc_end=lexbuf.L.lex_start_p};
+  | eof  { unterminated_comment (List.hd level, lexbuf.L.lex_start_p);
            token lexbuf
          }
 
@@ -113,12 +113,12 @@ and string pos buf = parse
   | "\\" ([' ' '\t' '\n']+ as x) "\\" { str_incr_linenum x lexbuf;
                                         string pos buf lexbuf
                                       }
-  | "\\" _ as x                       { illegal_escape {loc_start=lexbuf.L.lex_start_p; loc_end=lexbuf.L.lex_curr_p} x;
+  | "\\" _ as x                       { illegal_escape (lexbuf.L.lex_start_p, lexbuf.L.lex_curr_p) x;
                                         string pos buf lexbuf
                                       }
   | [^ '\\' '"']+ as x                { str_incr_linenum x lexbuf;
                                         string pos (buf ^ x) lexbuf
                                       }
-  | eof                               { unterminated_string {loc_start=pos; loc_end=lexbuf.L.lex_start_p};
+  | eof                               { unterminated_string (pos, lexbuf.L.lex_start_p);
                                         token lexbuf
                                       }

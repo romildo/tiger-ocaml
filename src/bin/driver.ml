@@ -7,7 +7,7 @@ let scan lexbuf =
     let tok = Lexer.token lexbuf in
     Format.printf
       "%a %s\n"
-      Location.print_loc (Location.curr_loc lexbuf)
+      Location.pp_location (Location.curr_loc lexbuf)
       (Lexer.show_token tok);
     match tok with
     | Parser.EOF -> ()
@@ -23,9 +23,18 @@ let main () =
   if Option.print_lex () then
     scan lexbuf
   else if Option.print_parse () then
-    let (l, ast) = Parser.program Lexer.token lexbuf in
-    Format.printf "%a\n" Location.print_loc l;
-    print_endline (Absyn.show_exp ast);
+  (
+    try
+      let ast = Parser.program Lexer.token lexbuf in
+      Format.printf "%a\n" Absyn.pp_lexp ast
+    with
+    | Parser.Error ->
+      Format.printf "%a error: syntax\n" Location.pp_position lexbuf.L.lex_curr_p;
+      exit (1)
+    | Error.Error (loc, msg) ->
+      Format.printf "%a error: %s" Location.pp_location loc msg;
+      exit (2)
+  );
   print_endline "done"
 
 let () = main ()

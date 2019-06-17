@@ -3,7 +3,7 @@ exception Error of (Location.t * string)
 let () =
   Printexc.register_printer
     (function
-      | Error (loc, msg) -> Some (Format.asprintf "%a error: %s" Location.print_loc loc msg)
+      | Error (loc, msg) -> Some (Format.asprintf "%a error: %s" Location.pp_location loc msg)
       | _ -> None (* for other exceptions *)
     )
 

@@ -40,7 +40,7 @@ and var =
 [@@deriving show]
 
 and dec =
-  | VarDec        of symbol * symbol loc option * lexp * Types.ty ref
+  | VarDec        of symbol * symbol loc option * lexp
   | MutualFunDecs of (fundec loc) list
   | MutualTypDecs of (symbol * lty) loc list
 [@@deriving show]
@@ -51,7 +51,7 @@ and ty =
   | ArrayTy  of symbol loc
 [@@deriving show]
 
-and fundec = symbol * field loc list * symbol loc option * lexp * Types.ty ref
+and fundec = symbol * field loc list * symbol loc option * lexp
 [@@deriving show]
 
 and lexp = exp loc
