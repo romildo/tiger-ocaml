@@ -21,18 +21,35 @@
 %token                 ASSIGN ":="
 %token                 EOF
 
+%nonassoc OF
+%left PLUS
+
 %start <Absyn.lexp>    program
 
 %%
 
 program:
- | x=exp EOF                   { x }
+ | x=exp EOF                    {x}
 
 exp:
- | NIL                         {$loc, NilExp}
- | x=INT                       {$loc, IntExp x}
- | t=ID "[" i=exp "]" OF x=exp {$loc, ArrayExp (t, i, x)}
- | x=exp o=binop y=exp         {$loc, OpExp (o, x, y)}
+ | NIL                          {$loc, NilExp}
+ | x=INT                        {$loc, IntExp x}
+ | t=ID "[" n=exp "]" OF x=exp  {$loc, ArrayExp (t, n, x)}
+ | x=exp o=binop y=exp          {$loc, OpExp (o, x, y)}
+ | x=var                        {$loc, VarExp x}
+ | LET ds=decs IN es=exps END   {$loc, LetExp (ds, ($loc(es), SeqExp es))}
 
 %inline binop:
- | "+"                         {PlusOp}
+ | "+"                          {PlusOp}
+
+var:
+ | v=ID                         {$loc, SimpleVar v}
+
+decs:
+ | ds=list(dec)                 {ds}
+
+dec:
+ | VAR v=ID ":" t=ID ":=" e=exp {$loc, VarDec (v, Some ($loc(t), t), e)}
+
+exps:
+ | es=separated_list(";", exp)  {es}
