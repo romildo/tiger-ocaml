@@ -27,6 +27,7 @@ let main () =
     try
       let ast = Parser.program Lexer.token lexbuf in
       Format.printf "%a\n" Absyn.pp_lexp ast
+      (* ; Semantic.type_check ast *)
     with
     | Parser.Error ->
       Format.printf "%a error: syntax\n" Location.pp_position lexbuf.L.lex_curr_p;
