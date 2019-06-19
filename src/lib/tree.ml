@@ -13,15 +13,15 @@ let rec map f (Tree (info, children)) =
 let string_of_tree t =
   let buf = Buffer.create 16 in
   let rec to_string indent =
-    let child_to_string continue_indentation x =
+    let child_to_string continue_indentation mark x =
       Buffer.add_char buf  '\n';
       Buffer.add_string buf indent;
-      Buffer.add_string buf "+- ";
+      Buffer.add_string buf mark;
       to_string (indent ^ continue_indentation) x
     in
     let rec children_to_string = function
-      | [x]     -> child_to_string "   " x
-      | x :: xs -> child_to_string "|  " x;
+      | [x]     -> child_to_string "   " "└─ " x
+      | x :: xs -> child_to_string "│  " "├─ " x;
                    children_to_string xs
       | []      -> ()
     in
@@ -89,12 +89,13 @@ node [shape=record];
 let str_replace c1 c2 str =
   try
     let i = String.index str c1 in
-    let s = String.copy str in
-    s.[i] <- c2;
-    s
+    let s = Bytes.of_string str in
+    Bytes.set s i c2;
+    Bytes.to_string s
   with Not_found -> str
 
-let rec box_node x = Box.frame (Box.line (str_replace ':' '\n' x))
+let box_node x =
+  Box.frame (Box.line (str_replace ':' '\n' x))
 
 let rec box_of_tree = function
   | Tree (x,[]) -> box_node x

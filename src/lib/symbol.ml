@@ -9,7 +9,7 @@ let size_hint = 128
 
 let hashtable = Hashtbl.create size_hint
 
-let name (s,n) = s
+let name (s,_) = s
 
 let symbol name =
   try

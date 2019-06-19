@@ -3,10 +3,15 @@
 module U = CamomileLibraryDefault.Camomile.UTF8
 module UC = CamomileLibraryDefault.Camomile.UChar
 
+let value option default =
+  match option with
+  | None -> default
+  | Some x -> x
+
 let str_length = U.length
 
 let str_split c s =
-  let uc = UC.of_char '\n' in
+  let uc = UC.of_char c in
   let rec go i =
     if U.out_of_range s i then
       []
@@ -25,7 +30,6 @@ let str_split c s =
 
 type box = string list
 
-
 let replicate n x =
   let rec go n xs =
     if n > 0
@@ -34,15 +38,11 @@ let replicate n x =
   in
   go n []
 
-
 let str_make n s = String.concat "" (replicate n s)
 
-
-let rec maximum = function
-  | [x] -> x
-  | (x::xs) -> max x (maximum xs)
-
-
+let maximum = function
+  | [] -> None
+  | hd::tl -> Some (List.fold_left max hd tl)
 
 let char x = [String.make 1 x]
 
@@ -56,7 +56,7 @@ let line x =
   if x = "" then [x]
   else
     let xs = str_split '\n' x in
-    let w = maximum (List.map U.length xs) in
+    let w = value (maximum (List.map U.length xs)) 0 in
     List.map
       (fun x ->
         let n = U.length x in
@@ -80,7 +80,6 @@ let width = function
   | [] -> 0
 
 let height xs = List.length xs
-
 
 
 let rec widen box new_width =
@@ -141,6 +140,7 @@ let connect box = function
   | [b] -> above box (above (line "|") b)
   | b1::bs  ->
     let rec go = function
+      | [] -> invalid_arg "go inside connect"
       | [b] -> let w = width b in
                str_make (w/2) "─" ^ "┐" ^ String.make (w-w/2+1) ' '
       | b::bs -> let w = width b in
@@ -155,4 +155,3 @@ let connect box = function
     (* buf.[q] <- if buf.[q] = '-' then '+' else '+'; *)
     let box2 = List.fold_left (fun b1 b2 -> beside2 b1 (beside2 (char ' ') b2)) b1 bs in
     above box (above (line buf) box2)
-

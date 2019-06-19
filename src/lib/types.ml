@@ -29,7 +29,7 @@ let rec coerceable a b =
   | NIL                       , RECORD _                   -> true
   | RECORD (_,uniqa)          , RECORD (_,uniqb)           -> uniqa = uniqb
   | ARRAY (_,uniqa)           , ARRAY (_,uniqb)            -> uniqa = uniqb
-  | FUNCTION (argsa,resulta)  , FUNCTION (argsb,resultb)   -> false
+  | FUNCTION _                , FUNCTION _                 -> false
   | _                                                      -> false
 
 
@@ -42,10 +42,10 @@ let rec string_of_ty = function
   | INT                       -> "INT"
   | STRING                    -> "STRING"
   | NIL                       -> "NIL"
-  | RECORD (fs,_)             -> "RECORD"
-  | ARRAY (t,_)               -> "ARRAY"
+  | RECORD _                  -> "RECORD"
+  | ARRAY _                   -> "ARRAY"
   | FUNCTION (formals,result) -> "FUNCTION:" ^ String.concat "->" (List.map string_of_ty (formals @ [result]))
-  | NAME (n,{contents=mt})    -> "NAME " ^ name n
+  | NAME (n,_)                -> "NAME " ^ name n
 
 let rec tree_of_ty = function
   | UNIT                      -> mkt "UNIT" []

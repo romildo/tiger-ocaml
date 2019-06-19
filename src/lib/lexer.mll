@@ -38,55 +38,56 @@ rule token = parse
   | "/*"          { comment [lexbuf.L.lex_start_p] lexbuf }
   | litint as lxm { INT (int_of_string lxm) }
   | '"'           { string lexbuf.L.lex_start_p "" lexbuf }
-  | "array"	  { ARRAY }
-  | "break"	  { BREAK }
-  | "do"	  { DO }
-  | "else"	  { ELSE }
-  | "end"	  { END }
-  | "for"	  { FOR }
-  | "function"	  { FUNCTION }
-  | "if"	  { IF }
-  | "in"	  { IN }
-  | "let"	  { LET }
-  | "nil"	  { NIL }
-  | "of"	  { OF }
-  | "then"	  { THEN }
-  | "to"	  { TO }
-  | "type"	  { TYPE }
-  | "var"	  { VAR }
-  | "while"	  { WHILE }
-  | id as lxm	  { ID (Symbol.symbol lxm) }
-  | ":="	  { ASSIGN }
-  | '|'		  { OR }
-  | '&'		  { AND }
-  | '='		  { EQ }
-  | "<>"	  { NE }
-  | '<'		  { LT }
-  | "<="	  { LE }
-  | '>'		  { GT }
-  | ">="	  { GE }
-  | '+'		  { PLUS }
-  | '-'		  { MINUS }
-  | '*'		  { TIMES }
-  | '/'		  { DIV }
-  | '('		  { LPAREN }
-  | ')'		  { RPAREN }
-  | '['		  { LBRACK }
-  | ']'		  { RBRACK }
+  | "array"       { ARRAY }
+  | "break"       { BREAK }
+  | "do"          { DO }
+  | "else"        { ELSE }
+  | "end"         { END }
+  | "for"         { FOR }
+  | "function"    { FUNCTION }
+  | "if"          { IF }
+  | "in"          { IN }
+  | "let"         { LET }
+  | "nil"         { NIL }
+  | "of"          { OF }
+  | "then"        { THEN }
+  | "to"          { TO }
+  | "type"        { TYPE }
+  | "var"         { VAR }
+  | "while"       { WHILE }
+  | id as lxm     { ID (Symbol.symbol lxm) }
+  | ":="          { ASSIGN }
+  | '|'           { OR }
+  | '&'           { AND }
+  | '='           { EQ }
+  | "<>"          { NE }
+  | '<'           { LT }
+  | "<="          { LE }
+  | '>'           { GT }
+  | ">="          { GE }
+  | '+'           { PLUS }
+  | '-'           { MINUS }
+  | '*'           { TIMES }
+  | '/'           { DIV }
+  | '('           { LPAREN }
+  | ')'           { RPAREN }
+  | '['           { LBRACK }
+  | ']'           { RBRACK }
   | '{'           { LBRACE }
-  | '}'		  { RBRACE }
-  | '.'		  { DOT }
-  | ':'		  { COLON }
-  | ','		  { COMMA }
-  | ';'		  { SEMI }
+  | '}'           { RBRACE }
+  | '.'           { DOT }
+  | ':'           { COLON }
+  | ','           { COMMA }
+  | ';'           { SEMI }
   | eof           { EOF }
   | _             { illegal_character (Location.curr_loc lexbuf) (L.lexeme_char lexbuf 0) }
 
 and comment level = parse
   | "*/" { match level with
-	   | [_] -> token lexbuf
-	   | _::level' -> comment level' lexbuf
-	 }
+           | [_] -> token lexbuf
+           | _::level' -> comment level' lexbuf
+           | [] -> failwith "bug in comment scanner"
+         }
   | "/*" { comment (lexbuf.L.lex_start_p :: level) lexbuf }
   | '\n' { L.new_line lexbuf;
            comment level lexbuf

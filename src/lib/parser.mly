@@ -37,19 +37,24 @@ exp:
  | t=ID "[" n=exp "]" OF x=exp  {$loc, ArrayExp (t, n, x)}
  | x=exp o=binop y=exp          {$loc, OpExp (o, x, y)}
  | x=var                        {$loc, VarExp x}
+ | "(" es=exps ")"              {$loc, SeqExp es}
  | LET ds=decs IN es=exps END   {$loc, LetExp (ds, ($loc(es), SeqExp es))}
+ (* TODO: complete with remaining expressions *)
 
 %inline binop:
  | "+"                          {PlusOp}
+ (* TODO: complete with remaining binary operators *)
 
 var:
  | v=ID                         {$loc, SimpleVar v}
+ (* TODO: complete with remaining variables *)
 
 decs:
  | ds=list(dec)                 {ds}
 
 dec:
  | VAR v=ID ":" t=ID ":=" e=exp {$loc, VarDec (v, Some ($loc(t), t), e)}
+ (* TODO: complete with remaining declarations *)
 
 exps:
  | es=separated_list(";", exp)  {es}
