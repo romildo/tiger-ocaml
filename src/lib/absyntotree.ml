@@ -90,17 +90,17 @@ and tree_of_var = function
   | SubscriptVar (v,i) -> mkt "SubscriptVar" [tree_of_lvar v; tree_of_lexp i]
 
 and tree_of_dec = function
-  | VarDec (v,t,e)   -> mkt "VarDec"
-                          [ mkt (name v) []
-                          ; mkt (match t with None -> "" | Some (_,k) -> name k) []
-                          ; tree_of_lexp e
-                          ]
-  | MutualFunDecs fs -> mkt "MutualFunDecs" (map tree_of_lfdec fs)
-  | MutualTypDecs ts -> mkt "MutualTypDecs"
-                            (map
-                              (fun (_,(t,ty)) ->
-                                mkt "" [mkt (name t) []; tree_of_lty ty])
-                              ts)
+  | VarDec (v,t,e)        -> mkt "VarDec"
+                               [ mkt (name v) []
+                               ; mkt (match t with None -> "FunctionDec" | Some (_,k) -> name k) []
+                               ; tree_of_lexp e
+                               ]
+  | MutualFunctionDecs fs -> mkt "MutualFunDecs" (map tree_of_lfdec fs)
+  | MutualTypeDecs ts     -> mkt "MutualTypDecs"
+                               (map
+                               (fun (_,(t,ty)) ->
+                                 mkt "TypeDec" [mkt (name t) []; tree_of_lty ty])
+                               ts)
 
 and tree_of_lfdec (_,(f,ps,r,b)) =
   mkt ("Function: " ^ name f)

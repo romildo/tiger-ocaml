@@ -122,6 +122,9 @@ and check_dec ((tenv,venv,in_loop) as env) (pos,dec) =
      let venv' = S.enter name tvar venv in
      (tenv,venv',in_loop)
 
+  | A.MutualTypeDecs decs ->
+     Error.fatal "unimplemented"
+
   (* TODO: remaining declarations  *)
 
   | _ ->
@@ -129,6 +132,7 @@ and check_dec ((tenv,venv,in_loop) as env) (pos,dec) =
 
 and check_ty ((tenv,venv,in_loop) as env) (pos,ty) =
   match ty with
+  | A.NameTy t -> tylook tenv t pos
 
   (* TODO: remaining type constructors *)
 

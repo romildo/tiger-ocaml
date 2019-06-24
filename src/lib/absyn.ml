@@ -40,9 +40,9 @@ and var =
 [@@deriving show]
 
 and dec =
-  | VarDec        of symbol * symbol loc option * lexp
-  | MutualFunDecs of (fundec loc) list
-  | MutualTypDecs of (symbol * lty) loc list
+  | VarDec             of symbol * symbol loc option * lexp
+  | MutualFunctionDecs of fundec loc list
+  | MutualTypeDecs     of (symbol * lty) loc list
 [@@deriving show]
 
 and ty =
