@@ -70,7 +70,7 @@ mutualtypedecs:
  | ds=nonempty_list(typedec)             {MutualTypeDecs ds}
 
 type_constraint:
- | c=option(":" t=ID                     {$loc(t), t}) {c}
+ | c=option(":" t=ID {$loc(t), t})       {c}
 
 ty:
  | ty=ID                                 {$loc, NameTy ty}

@@ -30,8 +30,8 @@ let main () =
       (* Format.printf "%a\n" Absyn.pp_lexp ast; *)
       print_endline (Tree.string_of_tree (Tree.map Absyntotree.node_txt (Absyntotree.tree_of_lexp ast)));
       print_newline ();
-      print_endline (Box.string_of_box (Tree.box_of_tree (Tree.map Absyntotree.node_txt (Absyntotree.tree_of_lexp ast))));
-      print_newline ();
+      (* print_endline (Box.string_of_box (Tree.box_of_tree (Tree.map Absyntotree.node_txt (Absyntotree.tree_of_lexp ast))));
+      print_newline (); *)
       let dotchannel = open_out "ast.dot" in
       output_string dotchannel (Tree.dot_of_tree "AST" (Tree.map Absyntotree.node_txt (Absyntotree.tree_of_lexp ast)));
       print_endline "Semantic analysis:";

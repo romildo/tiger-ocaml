@@ -122,8 +122,15 @@ and check_dec ((tenv,venv,in_loop) as env) (pos,dec) =
      let venv' = S.enter name tvar venv in
      (tenv,venv',in_loop)
 
-  | A.MutualTypeDecs decs ->
-     Error.fatal "unimplemented"
+  | A.MutualTypeDecs tdecs ->
+     let new_tenv =
+       List.fold_left
+         (fun tenv (_pos, (tname, _tcons))) ->
+           S.enter tname (T.NAME (tname, ref None)) tenv)
+         tenv
+         tdecs
+     in
+     (new_tenv,venv,in_loop)
 
   (* TODO: remaining declarations  *)
 

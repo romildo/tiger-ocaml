@@ -92,7 +92,7 @@ and tree_of_var = function
 and tree_of_dec = function
   | VarDec (v,t,e)        -> mkt "VarDec"
                                [ mkt (name v) []
-                               ; mkt (match t with None -> "FunctionDec" | Some (_,k) -> name k) []
+                               ; mkt (match t with None -> "" | Some (_,k) -> name k) []
                                ; tree_of_lexp e
                                ]
   | MutualFunctionDecs fs -> mkt "MutualFunDecs" (map tree_of_lfdec fs)
@@ -108,7 +108,7 @@ and tree_of_lfdec (_,(f,ps,r,b)) =
                       (fun (_,(n,t)) ->
                         mkt (name n) [ mkt (name t) [] ])
                       ps)
-    ; mkt (match r with None -> "" | Some (_,k) -> name k) []
+    ; mkt (match r with None -> "FunctionDec" | Some (_,k) -> name k) []
     ; tree_of_lexp b
     ]
 
