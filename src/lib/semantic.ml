@@ -123,14 +123,24 @@ and check_dec ((tenv,venv,in_loop) as env) (pos,dec) =
      (tenv,venv',in_loop)
 
   | A.MutualTypeDecs tdecs ->
+     (* first pass: add new type names to environment *)
      let new_tenv =
        List.fold_left
-         (fun tenv (_pos, (tname, _tcons))) ->
+         (fun tenv (_pos, (tname, _tcons)) ->
            S.enter tname (T.NAME (tname, ref None)) tenv)
          tenv
          tdecs
      in
-     (new_tenv,venv,in_loop)
+     let new_env = (new_tenv, venv, in_loop) in
+     (* second pass: check type definition *)
+     List.iter
+       (fun (_pos, (tname, tcons)) ->
+         let ty = check_ty new_env tcons in
+         match S.look tname new_tenv with
+         | Some (T.NAME (_, cell)) -> cell := Some ty
+         | _ -> Error.fatal "bug!")
+       tdecs;
+     new_env
 
   (* TODO: remaining declarations  *)
 
