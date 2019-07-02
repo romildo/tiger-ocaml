@@ -54,7 +54,7 @@ let rec check_exp ((tenv,venv,in_loop) as env) (pos,exp) =
      let tsize = check_exp env size in
      check_int tsize lsize;
      let telem = check_exp env elem in
-     begin match tylook tenv typeid pos with
+     begin match T.actual_ty (tylook tenv typeid pos) with
      | T.ARRAY (te,_) as t ->
         coerce telem te (loc elem);
         t
