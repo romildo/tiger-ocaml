@@ -157,5 +157,5 @@ and check_ty ((tenv,venv,in_loop) as env) (pos,ty) =
      Error.fatal "unimplemented"
 
 
-let type_check =
-  check_exp (E.base_tenv, E.base_venv, false)
+let type_check program =
+  check_exp (E.base_tenv, E.base_venv, false) program
