@@ -50,9 +50,9 @@ let rec check_exp ((tenv,venv,in_loop) as env) (pos,exp) =
 
   | A.IntExp _ -> T.INT
 
-  | A.ArrayExp (typeid, size, elem) ->
+  | A.ArrayExp (typeid, ((lsize,_) as size), elem) ->
      let tsize = check_exp env size in
-     check_int tsize (loc size);
+     check_int tsize lsize;
      let telem = check_exp env elem in
      begin match tylook tenv typeid pos with
      | T.ARRAY (te,_) as t ->
